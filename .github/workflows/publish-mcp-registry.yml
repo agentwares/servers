@@ -51,9 +51,14 @@ jobs:
               continue
             fi
             echo "::group::publish $name@$version  ($f)"
-            if (cd "$(dirname "$f")" && "$GITHUB_WORKSPACE/mcp-publisher" publish); then
+            if out=$(cd "$(dirname "$f")" && "$GITHUB_WORKSPACE/mcp-publisher" publish 2>&1); then
+              echo "$out"
               echo "published $name@$version"
+            elif printf '%s' "$out" | grep -q "cannot publish duplicate version"; then
+              # The search index above lags a publish by a minute or two, so a re-run can get here.
+              echo "skip $name@$version (already published)"
             else
+              echo "$out"
               echo "::error::failed to publish $name from $f"; rc=1
             fi
             echo "::endgroup::"
