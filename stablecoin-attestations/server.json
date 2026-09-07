@@ -1,0 +1,39 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.agentwares/stablecoin-attestations",
+  "description": "Stablecoin reserve attestations as JSON: reserves, composition, attestor, on-chain supply, ratio.",
+  "version": "0.1.1",
+  "repository": {
+    "url": "https://github.com/agentwares/servers",
+    "source": "github",
+    "subfolder": "stablecoin-attestations"
+  },
+  "title": "Stablecoin reserve attestations",
+  "websiteUrl": "https://agentwares-stablecoin.vercel.app",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@agentwares/stablecoin-attestations",
+      "version": "0.1.1",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://agentwares-stablecoin.vercel.app/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <API key> for paid stablecoin_reserves calls. Omit it and pass sample=true for a free example.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

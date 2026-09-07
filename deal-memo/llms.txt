@@ -1,0 +1,25 @@
+# deal-memo
+
+> Real estate deal memo API for agents: one US street address in; owner, automated value estimate, rent estimate, comps, cash-on-cash, cap rate, DSCR, red flags and a one-paragraph memo out. Deterministic underwriting over RentCast data. $0.75 per memo, $0.10 per lookup, free sample mode, no signup for the first call.
+
+Every response is {data, sources[], as_of, confidence, notice}. Sample mode (sample=true) returns a realistic recorded example at no charge and never calls a model. Paid calls send `Authorization: Bearer <api key>`; without one the tool answers PAYMENT_REQUIRED with x402 and Stripe MPP payment options (pay-per-call goes live with the wallet). Not financial advice; verify every figure before acting.
+
+## Links
+
+- [MCP server (Streamable HTTP)](https://agentwares-deal-memo.vercel.app/api/mcp): POST JSON-RPC; tools realestate_deal_memo, realestate_lookup
+- [HTTP endpoint: deal memo](https://agentwares-deal-memo.vercel.app/api/v1/memo): GET ?address=&strategy=&sample=true or POST JSON; 402 without a key
+- [HTTP endpoint: lookup](https://agentwares-deal-memo.vercel.app/api/v1/lookup): GET ?address=&kind=property|value|rent&sample=true
+- [pricing.json](https://agentwares-deal-memo.vercel.app/pricing.json)
+- [server.json (MCP registry)](https://agentwares-deal-memo.vercel.app/server.json)
+- [Health](https://agentwares-deal-memo.vercel.app/api/health)
+- [Source and README](https://github.com/agentwares/servers/tree/main/deal-memo)
+
+## Try it free
+
+- [Sample memo](https://agentwares-deal-memo.vercel.app/api/v1/memo?sample=true&address=1547%20Example%20Ave%2C%20Cleveland%2C%20OH%2044109)
+- [Sample lookup](https://agentwares-deal-memo.vercel.app/api/v1/lookup?sample=true&kind=value&address=1547%20Example%20Ave%2C%20Cleveland%2C%20OH%2044109)
+
+## MCP tools
+
+- `realestate_deal_memo` (address?, strategy?, assumptions?, memo?, sample?): Underwrite a US residential property from its street address for a rental, flip or hold strategy. Pulls the property record (owner, last sale, taxes, HOA), the automated value estimate with sale comps and the long-term rent estimate with rental comps from RentCast, then computes NOI, cap rate, cash-on-cash, DSCR, GRM and break-even occupancy from stated assumptions with deterministic math (plus 70%-rule, profit and ROI for a flip; a multi-year exit projection for a hold), lists red flags with a pass/review/fail screen, and adds a one-paragraph analyst memo. Returns {data, sources, as_of, confidence, notice}. Not financial advice: verify before acting. Paid: $0.75 per call; without credit you get a PAYMENT_REQUIRED result. Set sample=true for a free example response.
+- `realestate_lookup` (address?, kind?, sample?): Fetch one RentCast record for a US street address. kind=property: characteristics, owner, last sale, tax bill, assessment, HOA and sale history. kind=value: automated value estimate with a low/high range and the sale comps behind it. kind=rent: long-term rent estimate with a range and rental comps. One upstream call per lookup; use realestate_deal_memo when you need all three plus the underwriting. Returns {data, sources, as_of, confidence, notice}. Paid: $0.10 per call; without credit you get a PAYMENT_REQUIRED result. Set sample=true for a free example response.

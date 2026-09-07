@@ -1,0 +1,29 @@
+# stablecoin-attestations
+
+> Stablecoin reserve attestations as JSON: reserves, composition, attestor, on-chain supply, ratio.
+
+Monthly issuer reserve reports (PDF/HTML) are parsed once per issuer per month into a fixed schema, joined with the current on-chain supply from DefiLlama, and served as JSON. 26 issuers are in the registry; each response carries as_of, source_url, sources, confidence and a notice.
+
+Pricing: $0.05 per stablecoin_reserves call with an API key (Authorization: Bearer <key>); sample=true is free; x402 (USDC on Base) and Stripe MPP pay-per-call are advertised in the 402 response and go live with the wallet release.
+
+Informational only, not financial, investment or legal advice. Figures are parsed from the issuer's own published attestation (see source_url) and DefiLlama's public supply feed; the attestation date (as_of) and the on-chain supply date differ. Verify against the source document before relying on any number.
+
+## Links
+
+- [MCP endpoint (Streamable HTTP)](https://agentwares-stablecoin.vercel.app/mcp)
+- [HTTP endpoint](https://agentwares-stablecoin.vercel.app/v1/reserves/USDC): GET; 402 without a key; ?sample=1 is free; ?period=YYYY-MM for history
+- [Issuer registry](https://agentwares-stablecoin.vercel.app/v1/issuers): free
+- [pricing.json](https://agentwares-stablecoin.vercel.app/pricing.json)
+- [server.json (MCP registry)](https://agentwares-stablecoin.vercel.app/server.json)
+- [x402 Bazaar discovery metadata](https://agentwares-stablecoin.vercel.app/bazaar.json)
+- [Health](https://agentwares-stablecoin.vercel.app/health)
+
+## Optional
+
+- [npm (stdio for Claude Desktop / Cursor)](https://www.npmjs.com/package/@agentwares/stablecoin-attestations): npx stablecoin-attestations-mcp — serves the bundled snapshot locally, no key needed
+- [Source](https://github.com/agentwares/servers/tree/main/stablecoin-attestations)
+
+## MCP tools
+
+- `stablecoin_reserves` (symbol?, issuer?, period?, sample?): Latest parsed reserve attestation for one stablecoin issuer as JSON: as_of date, total reserves, composition by asset category, attestor, source_url, current on-chain supply (DefiLlama) and the reserve ratio. Use it when an agent needs machine-readable backing data instead of reading the issuer's PDF. Pass symbol (USDC, USDT, ...) or issuer; period=YYYY-MM selects an earlier month. Issuers without a third-party attestation return supply only with confidence 'none'. Paid: $0.05 per call; without credit you get a PAYMENT_REQUIRED result. Set sample=true for a free example response.
+- `stablecoin_list_issuers`: Free. Lists every issuer in the registry with symbol, issuer, attestation type, attestor, cadence, source_url and which months are parsed. Call it first to pick a symbol for stablecoin_reserves.

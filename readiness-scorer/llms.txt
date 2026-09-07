@@ -1,0 +1,26 @@
+# agentwares readiness scorer
+
+> Can an AI agent sign up to your SaaS with no human? A verified-domain-only Playwright probe tries to sign up, accept the terms and mint an API key, then publishes a 0-100 score, evidence and a fix list. Free.
+
+Flow: get the verification token for the host, publish it (DNS TXT _agentwares-readiness.<host>, <meta name="agentwares-readiness">, or /.well-known/agentwares-readiness.txt), request the scan, poll it. 3 scans per host per day. The probe never solves CAPTCHAs. Errors are JSON with code, cause, fix, retryable.
+
+## Links
+
+- [MCP server (Streamable HTTP)](https://agentwares-readiness.vercel.app/api/mcp)
+- [MCP registry entry](https://agentwares-readiness.vercel.app/server.json): server.json, 2025-12-11 schema
+- [Verification token](https://agentwares-readiness.vercel.app/api/token?url=https://example.com/signup): GET, stateless
+- [Request a scan](https://agentwares-readiness.vercel.app/api/scans): POST {url}; 202 with results URL, 403 DOMAIN_NOT_VERIFIED with instructions
+- [Scan status / result](https://agentwares-readiness.vercel.app/api/scans/<id>): JSON; results page at /r/<id>; badge at /badge/<id>.svg
+- [Rubric](https://agentwares-readiness.vercel.app/rubric)
+- [Health](https://agentwares-readiness.vercel.app/api/health)
+
+## Related
+
+- [agentsmd-lint badge](https://agentwares-readiness.vercel.app/badge/agents-md.svg?score=85&grade=B): stateless badge for the AGENTS.md linter
+- [agentcheck](https://agentwares-agentcheck.vercel.app): monitoring + public status badge for agents and MCP servers
+
+## MCP tools
+
+- `readiness_get_verification_token` (url): Step 1 of a readiness scan. Returns the domain-ownership token for the URL's host plus the three ways to publish it (DNS TXT record, <meta> tag, /.well-known file). The token is deterministic for the host, so calling this again returns the same value. Nothing is stored.
+- `readiness_request_scan` (url): Step 2. Verifies domain ownership (DNS TXT / meta tag / .well-known must carry the token from readiness_get_verification_token), then queues a Playwright probe that tries to sign up, accept the terms and mint an API key with no human. Returns the scan id and the public results URL. Fails with DOMAIN_NOT_VERIFIED (with instructions) or RATE_LIMITED (3 scans per host per day). Never solves CAPTCHAs.
+- `readiness_get_scan` (id): Step 3. Poll a scan by id. While status is queued/running only metadata is returned; when done you get the 0-100 score, grade, per-item rubric points with evidence, the fix list, and what could not be observed.

@@ -1,0 +1,33 @@
+{
+  "schema": "agentwares.pricing/v1",
+  "product": "stablecoin-attestations",
+  "currency": "usd",
+  "tiers": [
+    {
+      "id": "payg",
+      "name": "Pay per call",
+      "priceUsdMonthly": 0,
+      "limits": {
+        "price_usd_per_call": 0.05,
+        "sample_calls": "unlimited",
+        "issuers": 26
+      },
+      "features": [
+        "stablecoin_reserves ($0.05/call)",
+        "stablecoin_list_issuers (free)",
+        "sample mode (free)",
+        "API key now; x402 + Stripe MPP with the wallet release"
+      ]
+    }
+  ],
+  "meters": [
+    {
+      "eventName": "stablecoin_reserves_call",
+      "unitPriceUsd": 0.05,
+      "unit": "call",
+      "description": "One successful stablecoin_reserves lookup (sample calls are not metered)"
+    }
+  ],
+  "updatedAt": "2026-09-02T00:00:00.000Z",
+  "checkoutUrl": "https://agentwares-stablecoin.vercel.app/#access"
+}

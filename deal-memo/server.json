@@ -1,0 +1,27 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.agentwares/deal-memo",
+  "description": "Real estate deal memo from a US address: AVM, rent, comps, cap rate, cash-on-cash, DSCR, red flags.",
+  "version": "0.1.1",
+  "repository": {
+    "url": "https://github.com/agentwares/servers",
+    "source": "github",
+    "subfolder": "deal-memo"
+  },
+  "title": "Real estate deal memo",
+  "websiteUrl": "https://agentwares-deal-memo.vercel.app",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://agentwares-deal-memo.vercel.app/api/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <api key> for paid calls ($0.75 memo, $0.10 lookup). Omit and pass sample=true for a free example.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

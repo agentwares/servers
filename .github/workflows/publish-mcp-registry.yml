@@ -1,0 +1,61 @@
+name: Publish to the MCP Registry
+
+# Every server.json here is published under the io.github.agentwares/* namespace, which GitHub
+# OIDC proves this organisation owns — no secrets, no tokens. Tag the repo (mcp-2026-09-07) or run
+# it by hand. A listing whose exact version is already in the registry is skipped, so re-running
+# after adding one service is safe.
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "One service directory (e.g. deal-memo); blank publishes all of them"
+        required: false
+        type: string
+  push:
+    tags: ["mcp-*"]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install mcp-publisher
+        run: |
+          os=$(uname -s | tr '[:upper:]' '[:lower:]')
+          arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_${os}_${arch}.tar.gz" | tar xz mcp-publisher
+
+      - name: Authenticate (GitHub OIDC)
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish the listings the registry does not have yet
+        env:
+          ONLY: ${{ inputs.only }}
+        run: |
+          set -euo pipefail
+          if [ -n "$ONLY" ]; then files="$ONLY/server.json"; else files=$(git ls-files '*/server.json'); fi
+          rc=0
+          for f in $files; do
+            name=$(jq -r .name "$f")
+            version=$(jq -r .version "$f")
+            if curl -fsSL "https://registry.modelcontextprotocol.io/v0/servers?search=$name" |
+                 jq -e --arg n "$name" --arg v "$version" \
+                    '[.servers[].server | select(.name == $n and .version == $v)] | length > 0' >/dev/null; then
+              echo "skip $name@$version (already published)"
+              continue
+            fi
+            echo "::group::publish $name@$version  ($f)"
+            if (cd "$(dirname "$f")" && "$GITHUB_WORKSPACE/mcp-publisher" publish); then
+              echo "published $name@$version"
+            else
+              echo "::error::failed to publish $name from $f"; rc=1
+            fi
+            echo "::endgroup::"
+          done
+          exit $rc

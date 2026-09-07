@@ -1,0 +1,56 @@
+{
+  "schema": "agentwares.pricing/v1",
+  "product": "deal-memo",
+  "currency": "usd",
+  "tiers": [
+    {
+      "id": "pay_per_call",
+      "name": "Pay per call",
+      "priceUsdMonthly": 0,
+      "limits": {
+        "memo_usd": 0.75,
+        "lookup_usd": 0.1,
+        "sample": "free",
+        "cache_hours": 24
+      },
+      "features": [
+        "realestate_deal_memo: property record + value estimate + rent estimate + underwriting + memo",
+        "realestate_lookup: one RentCast record (property, value or rent)",
+        "sample=true returns a realistic example at no charge",
+        "every response carries data, sources, as_of, confidence, notice"
+      ]
+    }
+  ],
+  "meters": [
+    {
+      "eventName": "deal_memo",
+      "unitPriceUsd": 0.75,
+      "unit": "memo",
+      "description": "one realestate_deal_memo call"
+    },
+    {
+      "eventName": "deal_lookup",
+      "unitPriceUsd": 0.1,
+      "unit": "lookup",
+      "description": "one realestate_lookup call"
+    }
+  ],
+  "updatedAt": "2026-09-02T00:00:00.000Z",
+  "billing": "pay_per_call",
+  "free_first_call": true,
+  "sample_mode": "pass sample=true on any tool or endpoint: no key, no charge, no model call",
+  "payment_methods": [
+    "api_key (SHELF_API_KEYS, prepaid credits)",
+    "apify_pay_per_event",
+    "x402 (coming soon)",
+    "stripe_mpp (coming soon)"
+  ],
+  "endpoints": {
+    "mcp": "https://agentwares-deal-memo.vercel.app/api/mcp",
+    "memo": "https://agentwares-deal-memo.vercel.app/api/v1/memo",
+    "lookup": "https://agentwares-deal-memo.vercel.app/api/v1/lookup",
+    "llms_txt": "https://agentwares-deal-memo.vercel.app/llms.txt"
+  },
+  "upstream": "RentCast (resale permitted under its API terms); cached per address for at most 24h",
+  "notice": "Not financial advice. Automated estimates; verify independently."
+}

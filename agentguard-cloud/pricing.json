@@ -1,0 +1,76 @@
+{
+  "schema": "agentwares.pricing/v1",
+  "product": "agentguard",
+  "currency": "usd",
+  "billing": "monthly_band",
+  "bands": [
+    {
+      "id": "starter",
+      "name": "Starter",
+      "price_usd_monthly": 29,
+      "tool_calls_per_month": 100000,
+      "soft_alert_at": 80000,
+      "hard_stop_at": 150000,
+      "history_days": 30,
+      "features": ["hosted_proxy", "loop_breaker", "caps", "dashboard", "alerts"],
+      "lookup_key": "agentguard_starter"
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "price_usd_monthly": 99,
+      "tool_calls_per_month": 1000000,
+      "soft_alert_at": 800000,
+      "hard_stop_at": 1500000,
+      "history_days": 90,
+      "features": [
+        "hosted_proxy",
+        "loop_breaker",
+        "caps",
+        "dashboard",
+        "alerts",
+        "least_privilege",
+        "spend_ledger",
+        "chaos_mode",
+        "drift_alarm",
+        "pii_audit"
+      ],
+      "lookup_key": "agentguard_pro"
+    },
+    {
+      "id": "team",
+      "name": "Team",
+      "price_usd_monthly": 299,
+      "tool_calls_per_month": 10000000,
+      "soft_alert_at": 8000000,
+      "hard_stop_at": 15000000,
+      "history_days": 365,
+      "features": [
+        "hosted_proxy",
+        "loop_breaker",
+        "caps",
+        "dashboard",
+        "alerts",
+        "least_privilege",
+        "spend_ledger",
+        "chaos_mode",
+        "drift_alarm",
+        "pii_audit",
+        "policy_sync",
+        "approvals",
+        "compliance_export",
+        "erasure"
+      ],
+      "lookup_key": "agentguard_team"
+    }
+  ],
+  "trial": { "tool_calls_per_month": 1000, "note": "no card; hosted proxy, dashboard, 7-day log" },
+  "oss": {
+    "price_usd_monthly": 0,
+    "note": "self-hosted: npx @agentwares/agentguard --config agentguard.yaml"
+  },
+  "signup_url": "https://agentwares-agentguard.vercel.app/login",
+  "checkout_url": "https://agentwares-agentguard.vercel.app/dashboard/billing",
+  "proxy_url_pattern": "https://agentwares-agentguard-proxy.vercel.app/<proxyId>/mcp",
+  "updated_at": "2026-09-02"
+}

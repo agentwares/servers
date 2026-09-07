@@ -1,0 +1,27 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.agentwares/agentguard-cloud",
+  "description": "Manage hosted agentguard proxies: caps, dry-run, loop breaker, run reports, audit export.",
+  "version": "0.1.1",
+  "repository": {
+    "url": "https://github.com/agentwares/servers",
+    "source": "github",
+    "subfolder": "agentguard-cloud"
+  },
+  "title": "agentguard — policy proxy for agent tool calls",
+  "websiteUrl": "https://agentwares-agentguard.vercel.app",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://agentwares-agentguard.vercel.app/api/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <account key> from the dashboard. Only agentguard_get_pricing works without it.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

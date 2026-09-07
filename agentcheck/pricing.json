@@ -1,0 +1,119 @@
+{
+  "schema": "agentwares.pricing/v1",
+  "product": "agentcheck",
+  "currency": "usd",
+  "billing": "monthly_subscription_by_target",
+  "tiers": [
+    {
+      "id": "free",
+      "name": "Free",
+      "price_usd_monthly": 0,
+      "targets": 1,
+      "check_interval_sec": 3600,
+      "history_days": 7,
+      "features": ["badge", "status_page", "trust_json", "email_alerts"],
+      "lookup_key": "agentcheck_free"
+    },
+    {
+      "id": "starter",
+      "name": "Starter",
+      "price_usd_monthly": 29,
+      "targets": 3,
+      "check_interval_sec": 300,
+      "history_days": 30,
+      "features": [
+        "badge",
+        "status_page",
+        "trust_json",
+        "email_alerts",
+        "slack_discord_alerts",
+        "mcp_pack_weekly"
+      ],
+      "lookup_key": "agentcheck_starter"
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "price_usd_monthly": 199,
+      "targets": 10,
+      "check_interval_sec": 300,
+      "history_days": 90,
+      "features": [
+        "badge",
+        "status_page",
+        "trust_json",
+        "email_alerts",
+        "slack_discord_alerts",
+        "mcp_pack_nightly",
+        "nightly_suite",
+        "trace_to_test",
+        "commerce_pack"
+      ],
+      "lookup_key": "agentcheck_pro"
+    },
+    {
+      "id": "team",
+      "name": "Team",
+      "price_usd_monthly": 499,
+      "targets": 30,
+      "check_interval_sec": 60,
+      "history_days": 365,
+      "features": [
+        "badge",
+        "status_page",
+        "trust_json",
+        "email_alerts",
+        "slack_discord_alerts",
+        "mcp_pack_nightly",
+        "nightly_suite",
+        "trace_to_test",
+        "commerce_pack",
+        "multi_user",
+        "compliance_export",
+        "priority_queue"
+      ],
+      "lookup_key": "agentcheck_team"
+    }
+  ],
+  "add_ons": [
+    {
+      "id": "agentcheck_docs_eval_run",
+      "name": "Docs Task Eval run",
+      "unit": "run",
+      "price_usd": 5
+    },
+    { "id": "agentcheck_load_run", "name": "Hosted load run", "unit": "run", "price_usd": 10 },
+    {
+      "id": "agentcheck_extra_target",
+      "name": "Extra monitored target",
+      "unit": "target-month",
+      "price_usd": 8
+    }
+  ],
+  "mcpcheck": [
+    {
+      "id": "server_basic",
+      "name": "Server",
+      "price_usd_monthly_per_server": 19,
+      "features": ["clean_install_matrix", "catalog_diff", "badge"]
+    },
+    {
+      "id": "server_pro",
+      "name": "Server Pro",
+      "price_usd_monthly_per_server": 49,
+      "features": [
+        "clean_install_matrix",
+        "catalog_diff",
+        "badge",
+        "client_compat_matrix",
+        "oauth_conformance",
+        "error_ergonomics"
+      ]
+    }
+  ],
+  "free_first_call": true,
+  "signup_url": "https://agentwares-agentcheck.vercel.app/login",
+  "checkout_url": "https://agentwares-agentcheck.vercel.app/dashboard/billing",
+  "docs_url": "https://agentwares-agentcheck.vercel.app/llms.txt",
+  "updated_at": "2026-09-01"
+}

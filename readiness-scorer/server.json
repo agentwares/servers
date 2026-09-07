@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.agentwares/readiness-scorer",
+  "description": "Probe a signup URL you own and score whether an AI agent can sign up unaided.",
+  "version": "0.1.1",
+  "repository": {
+    "url": "https://github.com/agentwares/servers",
+    "source": "github",
+    "subfolder": "readiness-scorer"
+  },
+  "title": "Readiness scorer — can an agent sign up to your SaaS?",
+  "websiteUrl": "https://agentwares-readiness.vercel.app",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://agentwares-readiness.vercel.app/api/mcp"
+    }
+  ]
+}
