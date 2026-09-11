@@ -36,6 +36,11 @@
     }
   ],
   "updatedAt": "2026-09-02T00:00:00.000Z",
+  "lifecycle": {
+    "stage": "parked",
+    "since": "2026-09-11",
+    "reason": "Paused, not retired. It needs a property-data API key to answer a real address at all, and until it has one the paid routes refuse rather than charging for a fixture. Nothing further is being built until there is a reason to."
+  },
   "billing": "pay_per_call",
   "free_first_call": true,
   "sample_mode": "pass sample=true on any tool or endpoint: no key, no charge, no model call",

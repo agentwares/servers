@@ -1,5 +1,10 @@
 # Stablecoin reserve attestations
 
+> **RETIRED — 2026-09-11.** These endpoints keep working and nothing further is
+> being built on them. Do not start something new here.
+>
+> Never sold a call to anyone but us. The inputs are free — issuers publish the reports, DefiLlama publishes the supply — and at least six other hosts sell the same lookup. The endpoints keep working; nothing further is being built.
+
 Stablecoin issuer reserve attestations as JSON: total reserves, composition by asset category, attestor, on-chain supply and the reserve ratio.
 
 |                       |                                                                                                                    |

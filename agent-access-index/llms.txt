@@ -1,6 +1,6 @@
 # Agent Access Index
 
-> Given a URL, whether an AI agent may fetch it, on what terms, and at what price. Free, no key, no signup.
+> Whether an AI agent may fetch a URL, on what terms, and at what price. Free, no key, no signup.
 
 An agent that gets a 403 has no way to learn why, whether the site would serve it if it
 identified itself, or whether access is purchasable and at what price. This answers that,

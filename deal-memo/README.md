@@ -1,5 +1,10 @@
 # Real estate deal memo
 
+> **PARKED — 2026-09-11.** These endpoints keep working and nothing further is
+> being built on them. Do not start something new here.
+>
+> Paused, not retired. It needs a property-data API key to answer a real address at all, and until it has one the paid routes refuse rather than charging for a fixture. Nothing further is being built until there is a reason to.
+
 One US street address in; owner record, automated value estimate, rent estimate, comps, cap rate, cash-on-cash, DSCR, red flags and a one-paragraph memo out.
 
 |                       |                                                                                                                   |
