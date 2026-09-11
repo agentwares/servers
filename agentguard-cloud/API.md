@@ -18,21 +18,21 @@ Annotations: `readOnlyHint`, `idempotentHint`
 
 Create a hosted agentguard proxy in front of an MCP server. Returns the proxy id, the per-customer MCP URL and the proxy key (shown once). Point your agent's MCP client at the URL with `Authorization: Bearer <key>`. Requires an account key.
 
-| Parameter      | Type                       | Required | Description                                                    |
-| -------------- | -------------------------- | -------- | -------------------------------------------------------------- |
-| `slug`         | string                     | yes      | short name, a-z 0-9 -                                          |
-| `upstreamUrl`  | string                     | yes      | Streamable HTTP URL of the MCP server to protect               |
-| `upstreamName` | string                     | no       | name used to namespace tools when you add more upstreams later |
-| `mode`         | `"dry-run"` \| `"enforce"` | no       |                                                                |
+| Parameter      | Type                       | Required | Description                                                                                                                |
+| -------------- | -------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `slug`         | string                     | yes      | short name, a-z 0-9 -                                                                                                      |
+| `upstreamUrl`  | string                     | yes      | Streamable HTTP URL of the MCP server to protect                                                                           |
+| `upstreamName` | string                     | no       | name used to namespace tools when you add more upstreams later                                                             |
+| `mode`         | `"dry-run"` \| `"enforce"` | no       | dry-run records what the policy would have blocked and lets every call through; enforce actually blocks. Start in dry-run. |
 
 ## `agentguard_set_policy`
 
 Replace a proxy's policy (YAML: mode, upstreams, classify, caps, loop, dry_run, approvals, alerts, chaos, drift). Validated before saving; takes effect within 30 seconds. Requires an account key.
 
-| Parameter    | Type   | Required | Description |
-| ------------ | ------ | -------- | ----------- |
-| `proxyId`    | string | yes      |             |
-| `policyYaml` | string | yes      |             |
+| Parameter    | Type   | Required | Description                                                                   |
+| ------------ | ------ | -------- | ----------------------------------------------------------------------------- |
+| `proxyId`    | string | yes      | the proxy id returned by agentguard_create_proxy                              |
+| `policyYaml` | string | yes      | the complete policy document; it replaces the current one rather than merging |
 
 Annotations: `idempotentHint`
 
@@ -40,10 +40,10 @@ Annotations: `idempotentHint`
 
 The incident-shaped report for one run: counts (calls, reads, writes, faked, blocked, spend), the call timeline with decisions, dry-run mutations (what would have changed), ledger entries and the audit-chain verification. Requires an account key.
 
-| Parameter | Type   | Required | Description |
-| --------- | ------ | -------- | ----------- |
-| `proxyId` | string | yes      |             |
-| `runId`   | string | yes      |             |
+| Parameter | Type   | Required | Description                                                               |
+| --------- | ------ | -------- | ------------------------------------------------------------------------- |
+| `proxyId` | string | yes      | the proxy id returned by agentguard_create_proxy                          |
+| `runId`   | string | yes      | the X-Run-Id your agent sent with the calls; one run is one agent session |
 
 Annotations: `readOnlyHint`, `idempotentHint`
 
@@ -51,10 +51,10 @@ Annotations: `readOnlyHint`, `idempotentHint`
 
 Export a run's hash-chained audit entries (prev_hash, hash, redacted args) with the Merkle root, for disputes and questionnaires. Verify offline with sha256(prev_hash + canonical(entry)). Requires an account key.
 
-| Parameter | Type   | Required | Description |
-| --------- | ------ | -------- | ----------- |
-| `proxyId` | string | yes      |             |
-| `runId`   | string | yes      |             |
+| Parameter | Type   | Required | Description                                                               |
+| --------- | ------ | -------- | ------------------------------------------------------------------------- |
+| `proxyId` | string | yes      | the proxy id returned by agentguard_create_proxy                          |
+| `runId`   | string | yes      | the X-Run-Id your agent sent with the calls; one run is one agent session |
 
 Annotations: `readOnlyHint`, `idempotentHint`
 
@@ -62,8 +62,8 @@ Annotations: `readOnlyHint`, `idempotentHint`
 
 Least-privilege recommendation from the proxy's recorded calls: the minimal tool allowlist, argument keys used per tool, and the upstream tools never used (remove them first). No LLM call here; apply it in the dashboard. Requires an account key.
 
-| Parameter | Type   | Required | Description |
-| --------- | ------ | -------- | ----------- |
-| `proxyId` | string | yes      |             |
+| Parameter | Type   | Required | Description                                      |
+| --------- | ------ | -------- | ------------------------------------------------ |
+| `proxyId` | string | yes      | the proxy id returned by agentguard_create_proxy |
 
 Annotations: `readOnlyHint`, `idempotentHint`
