@@ -69,8 +69,42 @@
     "price_usd_monthly": 0,
     "note": "self-hosted: npx @agentwares/agentguard --config agentguard.yaml"
   },
-  "signup_url": "https://agentwares-agentguard.vercel.app/login",
+  "per_call": {
+    "id": "calls",
+    "name": "Bought calls",
+    "url": "https://agentwares-agentguard.vercel.app/api/v1/calls",
+    "method": "POST",
+    "usd_per_call": 0.00029,
+    "min_calls": 1000,
+    "max_calls": 5000000,
+    "example_price_usd": 0.29,
+    "auth": "Authorization: Bearer <account key>, plus X-Credit-Key: <funded credit key>",
+    "idempotency_header": "Idempotency-Key",
+    "human_required": false,
+    "note": "Added to this month's allowance on top of the trial or a band. Bought calls do not roll over."
+  },
+  "signup_url": "https://agentwares-agentguard.vercel.app/api/v1/signup",
+  "signup_human_required": false,
+  "credit_keys_url": "https://agentwares-agentguard.vercel.app/v1/keys",
+  "funding_rails": [
+    {
+      "rail": "x402",
+      "asset": "USDC",
+      "network": "eip155:8453",
+      "pay_to": "0x48e7DFa6958E8f71EF5fb417c88CbCA21DA482c5",
+      "url": "https://agentwares-agentguard.vercel.app/v1/credits/x402",
+      "human_required": false
+    },
+    {
+      "rail": "prepaid_credits",
+      "asset": "card",
+      "url": "https://agentwares-agentguard.vercel.app/v1/credits",
+      "human_required": true,
+      "note": "returns a Stripe Checkout URL; a person has to complete it"
+    }
+  ],
   "checkout_url": "https://agentwares-agentguard.vercel.app/dashboard/billing",
+  "subscription_human_required": true,
   "proxy_url_pattern": "https://agentwares-agentguard-proxy.vercel.app/<proxyId>/mcp",
-  "updated_at": "2026-09-02"
+  "updated_at": "2026-09-10"
 }

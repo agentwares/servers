@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.agentwares/stablecoin-attestations",
   "description": "Stablecoin reserve attestations as JSON: reserves, composition, attestor, on-chain supply, ratio.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "url": "https://github.com/agentwares/servers",
     "source": "github",
@@ -15,7 +15,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@agentwares/stablecoin-attestations",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -29,7 +29,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "description": "Bearer <API key> for paid stablecoin_reserves calls. Omit it and pass sample=true for a free example.",
+          "description": "Bearer <API key> for paid stablecoin_reserves calls. POST /v1/keys with no auth to buy one, or omit it and pass sample=true for a free example.",
           "isRequired": false,
           "isSecret": true
         }

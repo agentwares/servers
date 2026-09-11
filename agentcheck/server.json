@@ -2,14 +2,14 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.agentwares/agentcheck",
   "description": "Synthetic checks, nightly regression replay and model-drift alerts for AI agents",
-  "title": "agentcheck",
   "version": "0.1.1",
-  "websiteUrl": "https://agentwares-agentcheck.vercel.app",
   "repository": {
     "url": "https://github.com/agentwares/servers",
     "source": "github",
     "subfolder": "agentcheck"
   },
+  "title": "agentcheck",
+  "websiteUrl": "https://agentwares-agentcheck.vercel.app",
   "remotes": [
     {
       "type": "streamable-http",
@@ -17,7 +17,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "description": "Bearer ak_live_… — create one at /dashboard/keys. Omit it to use the free read-only tools (agentcheck_get_status, agentcheck_get_pricing).",
+          "description": "Bearer ak_live_… — create one at /dashboard/keys, or POST /api/v1/signup with {\"accept_terms\": true} for one with no human. Omit it to use the free read-only tools (agentcheck_get_status, agentcheck_get_pricing).",
           "isRequired": false,
           "isSecret": true,
           "format": "string"

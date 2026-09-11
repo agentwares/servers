@@ -8,7 +8,7 @@ See [README.md](README.md) for authentication and a call you can paste into a te
 
 ## `stablecoin_reserves`
 
-Latest parsed reserve attestation for one stablecoin issuer as JSON: as_of date, total reserves, composition by asset category, attestor, source_url, current on-chain supply (DefiLlama) and the reserve ratio. Use it when an agent needs machine-readable backing data instead of reading the issuer's PDF. Pass symbol (USDC, USDT, ...) or issuer; period=YYYY-MM selects an earlier month. Issuers without a third-party attestation return supply only with confidence 'none'. Paid: $0.05 per call; without credit you get a PAYMENT_REQUIRED result. Set sample=true for a free example response.
+Latest parsed reserve attestation for one stablecoin issuer as JSON: as_of date, total reserves, composition by asset category, attestor, source_url, current on-chain supply (DefiLlama) and the reserve ratio. Use it when an agent needs machine-readable backing data instead of reading the issuer's PDF. Pass symbol (USDC, USDT, ...) or issuer; period=YYYY-MM selects an earlier month. Issuers without a third-party attestation return supply only with confidence 'none'. Paid: $0.02 per call; without credit you get a PAYMENT_REQUIRED result. Set sample=true for a free example response.
 
 | Parameter | Type    | Required | Description                                                                                 |
 | --------- | ------- | -------- | ------------------------------------------------------------------------------------------- |

@@ -6,7 +6,7 @@ Stablecoin issuer reserve attestations as JSON: total reserves, composition by a
 | --------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | **Service**           | https://agentwares-stablecoin.vercel.app                                                                           |
 | **MCP endpoint**      | `https://agentwares-stablecoin.vercel.app/mcp` (Streamable HTTP)                                                   |
-| **Registry name**     | `io.github.agentwares/stablecoin-attestations` (v0.1.1)                                                            |
+| **Registry name**     | `io.github.agentwares/stablecoin-attestations` (v0.1.2)                                                            |
 | **npm**               | [`@agentwares/stablecoin-attestations`](https://www.npmjs.com/package/@agentwares/stablecoin-attestations) — stdio |
 | **Tools**             | `stablecoin_reserves`, `stablecoin_list_issuers`                                                                   |
 | **In this directory** | [`server.json`](server.json) · [`llms.txt`](llms.txt) · [`pricing.json`](pricing.json) · [tool reference](API.md)  |

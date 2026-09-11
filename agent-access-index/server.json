@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.agentwares/agent-access-index",
+  "description": "Given a URL, whether an AI agent may fetch it, on what terms, and at what price. Free, no key, no signup.",
+  "version": "0.1.0",
+  "websiteUrl": "https://agentwares-access-index.vercel.app",
+  "repository": {
+    "url": "https://github.com/agentwares/servers",
+    "source": "github",
+    "subfolder": "agent-access-index"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://agentwares-access-index.vercel.app/mcp"
+    }
+  ]
+}

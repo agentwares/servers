@@ -77,13 +77,6 @@
   ],
   "add_ons": [
     {
-      "id": "agentcheck_docs_eval_run",
-      "name": "Docs Task Eval run",
-      "unit": "run",
-      "price_usd": 5
-    },
-    { "id": "agentcheck_load_run", "name": "Hosted load run", "unit": "run", "price_usd": 10 },
-    {
       "id": "agentcheck_extra_target",
       "name": "Extra monitored target",
       "unit": "target-month",
@@ -112,7 +105,8 @@
     }
   ],
   "free_first_call": true,
-  "signup_url": "https://agentwares-agentcheck.vercel.app/login",
+  "signup_url": "https://agentwares-agentcheck.vercel.app/api/v1/signup",
+  "login_url": "https://agentwares-agentcheck.vercel.app/login",
   "checkout_url": "https://agentwares-agentcheck.vercel.app/dashboard/billing",
   "docs_url": "https://agentwares-agentcheck.vercel.app/llms.txt",
   "updated_at": "2026-09-01"

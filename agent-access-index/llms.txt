@@ -1,0 +1,49 @@
+# Agent Access Index
+
+> Given a URL, whether an AI agent may fetch it, on what terms, and at what price. Free, no key, no signup.
+
+An agent that gets a 403 has no way to learn why, whether the site would serve it if it
+identified itself, or whether access is purchasable and at what price. This answers that,
+from the origin's own signals.
+
+Every request this index makes identifies itself as `agent-access-index/1.0 (+https://agentwares-access-index.vercel.app/#what-this-fetches)`. It never solves
+CAPTCHAs, rotates proxies, or sends another operator's user-agent. It obeys robots.txt for
+itself: if a site disallows this index, it reports that and does not fetch the page.
+
+Per-agent answers come from what the origin declared in robots.txt, never from testing with
+a borrowed identity — an origin's response to a spoofed `GPTBot` header tells you what its
+bot management does with a liar, not what it does with OpenAI.
+
+## Links
+
+- [Check a URL](https://agentwares-access-index.vercel.app/policy?url=https://example.com/): GET, JSON, no key
+- [MCP server](https://agentwares-access-index.vercel.app/mcp): Streamable HTTP, no auth
+- [Server card](https://agentwares-access-index.vercel.app/server.json)
+- [Health](https://agentwares-access-index.vercel.app/health)
+- [What this fetches, and how to allow or block it](https://agentwares-access-index.vercel.app/#what-this-fetches)
+
+## Verdicts
+
+- [allowed](https://agentwares-access-index.vercel.app/#allowed): the origin served an honestly-identified request
+- [allowed_if_identified](https://agentwares-access-index.vercel.app/#allowed_if_identified): written policy permits it; bot management refused an anonymous request
+- [charged](https://agentwares-access-index.vercel.app/#charged): access is gated on payment
+- [blocked](https://agentwares-access-index.vercel.app/#blocked): the site says no and sells nothing
+- [unknown](https://agentwares-access-index.vercel.app/#unknown): no answer, or the URL is not there
+
+## MCP tools
+
+- `access_check_url` (url, includeEvidence?, skipWellKnown?): Given a URL, say whether an AI agent may fetch it, on what terms, and at what price.
+Reads robots.txt for a generic agent and for every AI user-agent the operators document,
+the Content-signal and Content-Usage directives, any RSL licence the origin links, and
+the live response to an honestly-identified request.
+
+Verdicts: `allowed` (it served us), `allowed_if_identified` (the written policy permits
+this but bot management refused an anonymous request — signing as a named crawler is the
+documented route), `charged` (there is a price, quoted where the rail will show one),
+`blocked` (the site disallows the agents that would want this, with nothing to buy), and
+`unknown` (the origin did not answer, or the URL is not there).
+
+Never evades: no CAPTCHA solving, no proxies, no spoofed user-agents. Refusals come back
+as findings with the evidence attached.
+- `access_explain_verdicts`: Return the five verdicts this index can return, what each one means for an agent that has just been refused, and what the agent's next move is for each. Costs nothing and makes no request; call it once to interpret access_check_url results.
+- `access_list_agents`: Return the AI crawler tokens this index reads robots.txt rules for — only tokens their operators document — plus the widely-written tokens that no operator sends, which make a robots rule unenforceable. Useful when writing or auditing a robots.txt.

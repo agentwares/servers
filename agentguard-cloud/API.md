@@ -8,7 +8,7 @@ See [README.md](README.md) for authentication and a call you can paste into a te
 
 ## `agentguard_get_pricing`
 
-Machine-readable pricing for agentguard hosted: bands (Starter/Pro/Team) with included tool calls per month, the 80% soft alert and 150% hard stop, features and the free trial allowance. Same data as /pricing.json.
+Machine-readable pricing for agentguard hosted: bands (Starter/Pro/Team) with included tool calls per month, the 80% soft alert and 150% hard stop, features, the free trial allowance, and `per_call` — buying tool calls outright at POST /api/v1/calls from a prepaid balance, which is the one purchase here an unattended agent can complete. Same data as /pricing.json.
 
 _Takes no arguments._
 

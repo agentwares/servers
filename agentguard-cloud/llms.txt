@@ -2,21 +2,26 @@
 
 > A policy proxy between your agent and its MCP servers: loop breaker, blast-radius caps, dry-run writes with a mutation diff, kill switch, hash-chained audit log with published Merkle roots, spend ledger, and incident-shaped run reports. Connect in under a minute with `npx @agentwares/agentguard connect <key>`.
 
-Bands, not a meter: Starter $29 (100K calls/mo), Pro $99 (1M), Team $299 (10M); soft alert at 80%, hard stop at 150% (error code BAND_EXCEEDED with an upgrade URL). Free trial: 1,000 calls/mo. Per-customer MCP endpoint: https://agentwares-agentguard-proxy.vercel.app/<proxyId>/mcp with Authorization: Bearer <key>. Every refusal is an isError tool result whose text is JSON {code, cause, fix, retryable}: LOOP_DETECTED, CAP_EXCEEDED, BAND_EXCEEDED, APPROVAL_REQUIRED, KILL_SWITCH, TOOL_DENIED.
+Bands, not a meter: Starter $29 (100K calls/mo), Pro $99 (1M), Team $299 (10M); soft alert at 80%, hard stop at 150% (error code BAND_EXCEEDED with an upgrade URL). Free trial: 1,000 calls/mo, started with POST /api/v1/signup {"accept_terms": true} — no human, no card. Per-customer MCP endpoint: https://agentwares-agentguard-proxy.vercel.app/<proxyId>/mcp with Authorization: Bearer <key>. Every refusal is an isError tool result whose text is JSON {code, cause, fix, retryable}: LOOP_DETECTED, CAP_EXCEEDED, BAND_EXCEEDED, APPROVAL_REQUIRED, KILL_SWITCH, TOOL_DENIED.
+
+Buying more calls without a browser: the bands are monthly subscriptions bought at a Stripe Checkout page, which an unattended agent cannot complete. POST https://agentwares-agentguard.vercel.app/api/v1/calls buys capacity outright at $0.00029 per call — blocks of 1,000 to 5,000,000, so the smallest is $0.29 — added to this month's allowance on top of the trial or a band. Bought calls do not roll over. Three calls from cold: (1) POST https://agentwares-agentguard.vercel.app/api/v1/signup {"accept_terms": true} for an ACCOUNT key, which says whose allowance goes up; (2) POST https://agentwares-agentguard.vercel.app/v1/keys for a CREDIT key, which says what pays, and fund it in USDC over x402 (eip155:8453) with POST https://agentwares-agentguard.vercel.app/v1/credits/x402 — no account, no card, no person; (3) POST https://agentwares-agentguard.vercel.app/api/v1/calls {"calls": 1000} sending BOTH — Authorization: Bearer <account key> and X-Credit-Key: <credit key> — plus an Idempotency-Key so a retry is charged once. GET the same URL for the price first. A charge that fails to land is refunded.
 
 ## Links
 
+- [Start the free trial (no human, no card, no CAPTCHA)](https://agentwares-agentguard.vercel.app/api/v1/signup): POST {"accept_terms": true} for an account key
+- [Buy tool calls outright (no browser, no subscription)](https://agentwares-agentguard.vercel.app/api/v1/calls): POST {"calls": 1000} at $0.00029/call with an account key and a funded credit key; GET for the terms
+- [Credit keys and funding](https://agentwares-agentguard.vercel.app/v1/keys): POST with no auth for a credit key; POST https://agentwares-agentguard.vercel.app/v1/credits/x402 funds it in USDC with no human
 - [Pricing (machine-readable)](https://agentwares-agentguard.vercel.app/pricing.json)
 - [Management MCP server (Streamable HTTP)](https://agentwares-agentguard.vercel.app/api/mcp)
 - [OpenAPI](https://agentwares-agentguard.vercel.app/openapi.json)
 - [Public demo dashboard](https://agentwares-agentguard.vercel.app/demo)
 - [Status page pattern](https://agentwares-agentguard.vercel.app/status/<proxyId>): daily Merkle roots, badge at /status/<proxyId>.svg, trust.json, merkle.json
 - [Proxy health](https://agentwares-agentguard-proxy.vercel.app/health)
-- [OSS proxy (self-hosted)](https://github.com/agentwares/agentwares): npx @agentwares/agentguard --config agentguard.yaml
+- [OSS proxy (self-hosted)](https://github.com/agentwares/agentguard): npx @agentwares/agentguard --config agentguard.yaml
 
 ## MCP tools
 
-- `agentguard_get_pricing`: Machine-readable pricing for agentguard hosted: bands (Starter/Pro/Team) with included tool calls per month, the 80% soft alert and 150% hard stop, features and the free trial allowance. Same data as /pricing.json.
+- `agentguard_get_pricing`: Machine-readable pricing for agentguard hosted: bands (Starter/Pro/Team) with included tool calls per month, the 80% soft alert and 150% hard stop, features, the free trial allowance, and `per_call` — buying tool calls outright at POST /api/v1/calls from a prepaid balance, which is the one purchase here an unattended agent can complete. Same data as /pricing.json.
 - `agentguard_create_proxy` (slug, upstreamUrl, upstreamName?, mode?): Create a hosted agentguard proxy in front of an MCP server. Returns the proxy id, the per-customer MCP URL and the proxy key (shown once). Point your agent's MCP client at the URL with `Authorization: Bearer <key>`. Requires an account key.
 - `agentguard_set_policy` (proxyId, policyYaml): Replace a proxy's policy (YAML: mode, upstreams, classify, caps, loop, dry_run, approvals, alerts, chaos, drift). Validated before saving; takes effect within 30 seconds. Requires an account key.
 - `agentguard_get_run` (proxyId, runId): The incident-shaped report for one run: counts (calls, reads, writes, faked, blocked, spend), the call timeline with decisions, dry-run mutations (what would have changed), ledger entries and the audit-chain verification. Requires an account key.

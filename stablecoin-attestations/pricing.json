@@ -8,26 +8,35 @@
       "name": "Pay per call",
       "priceUsdMonthly": 0,
       "limits": {
-        "price_usd_per_call": 0.05,
+        "price_usd_per_call": 0.02,
         "sample_calls": "unlimited",
-        "issuers": 26
+        "issuers": 26,
+        "issuers_with_attestation": 6,
+        "symbols_with_attestation": "USDT,USDC,EURC,USDtb,RLUSD,USD1"
       },
       "features": [
-        "stablecoin_reserves ($0.05/call)",
-        "stablecoin_list_issuers (free)",
+        "stablecoin_reserves ($0.02/call) — 6 of 26 issuers have a parsed attestation: USDT, USDC, EURC, USDtb, RLUSD, USD1",
+        "the other 20 are listed with their source and cadence but return latest_period: null until a report is parsed",
+        "stablecoin_list_issuers (free) — check coverage before paying",
         "sample mode (free)",
-        "API key now; x402 + Stripe MPP with the wallet release"
+        "self-serve keys and prepaid credits (no signup, no human)",
+        "x402 (USDC on Base) — live, settles with no account and no human"
       ]
     }
   ],
   "meters": [
     {
       "eventName": "stablecoin_reserves_call",
-      "unitPriceUsd": 0.05,
+      "unitPriceUsd": 0.02,
       "unit": "call",
       "description": "One successful stablecoin_reserves lookup (sample calls are not metered)"
     }
   ],
   "updatedAt": "2026-09-02T00:00:00.000Z",
-  "checkoutUrl": "https://agentwares-stablecoin.vercel.app/#access"
+  "checkoutUrl": "https://agentwares-stablecoin.vercel.app/v1/keys",
+  "lifecycle": {
+    "stage": "retired",
+    "since": "2026-09-11",
+    "reason": "Never sold a call to anyone but us. The inputs are free — issuers publish the reports, DefiLlama publishes the supply — and at least six other hosts sell the same lookup. The endpoints keep working; nothing further is being built."
+  }
 }

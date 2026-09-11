@@ -2,13 +2,19 @@
 
 > Real estate deal memo API for agents: one US street address in; owner, automated value estimate, rent estimate, comps, cash-on-cash, cap rate, DSCR, red flags and a one-paragraph memo out. Deterministic underwriting over RentCast data. $0.75 per memo, $0.10 per lookup, free sample mode, no signup for the first call.
 
-Every response is {data, sources[], as_of, confidence, notice}. Sample mode (sample=true) returns a realistic recorded example at no charge and never calls a model. Paid calls send `Authorization: Bearer <api key>`; without one the tool answers PAYMENT_REQUIRED with x402 and Stripe MPP payment options (pay-per-call goes live with the wallet). Not financial advice; verify every figure before acting.
+Every response is {data, sources[], as_of, confidence, notice}. Sample mode (sample=true) returns a realistic recorded example at no charge and never calls a model. Not financial advice; verify every figure before acting.
+
+Getting a key takes no signup: POST https://agentwares-deal-memo.vercel.app/v1/keys returns an API key with a $0 balance and a Stripe Checkout URL. Funding it does need a person — the Checkout URL is a hosted card page, so an unattended agent should hand that URL to its operator rather than retry. Sample mode needs neither: add sample=true for a free, keyless example. Once funded, send Authorization: Bearer <key> and the price comes off the balance. Send Idempotency-Key on a retry and the repeat is not charged again. GET https://agentwares-deal-memo.vercel.app/v1/credits reads the balance and POST buys more (packs: $10, $50, $200). A call that fails is refunded. Stripe is in TEST mode: card 4242 4242 4242 4242 with any future expiry and CVC.
+
+Without credit the tool answers PAYMENT_REQUIRED, and that 402 carries the same instructions. Paying in USDC (x402 on Base, exact scheme, EIP-3009) is live and settles through the PayAI facilitator with no account, no API key and no human: read the accepts entry whose rail is x402, sign, and retry with the X-PAYMENT header. That is the rail to use if you are unattended. The card rail funds a prepaid balance and needs a person at a Checkout page.
 
 ## Links
 
 - [MCP server (Streamable HTTP)](https://agentwares-deal-memo.vercel.app/api/mcp): POST JSON-RPC; tools realestate_deal_memo, realestate_lookup
-- [HTTP endpoint: deal memo](https://agentwares-deal-memo.vercel.app/api/v1/memo): GET ?address=&strategy=&sample=true or POST JSON; 402 without a key
+- [HTTP endpoint: deal memo](https://agentwares-deal-memo.vercel.app/api/v1/memo): GET ?address=&strategy=&sample=true or POST JSON; 402 without credit
 - [HTTP endpoint: lookup](https://agentwares-deal-memo.vercel.app/api/v1/lookup): GET ?address=&kind=property|value|rent&sample=true
+- [Buy a key](https://agentwares-deal-memo.vercel.app/v1/keys): POST with no auth; returns a key and a Stripe Checkout URL
+- [Balance and top-ups](https://agentwares-deal-memo.vercel.app/v1/credits): GET with the key for the balance and ledger; POST for another pack
 - [pricing.json](https://agentwares-deal-memo.vercel.app/pricing.json)
 - [server.json (MCP registry)](https://agentwares-deal-memo.vercel.app/server.json)
 - [Health](https://agentwares-deal-memo.vercel.app/api/health)

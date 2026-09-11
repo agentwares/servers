@@ -40,15 +40,17 @@
   "free_first_call": true,
   "sample_mode": "pass sample=true on any tool or endpoint: no key, no charge, no model call",
   "payment_methods": [
-    "api_key (SHELF_API_KEYS, prepaid credits)",
+    "prepaid_credits (self-serve: POST /v1/keys, fund by card, no signup)",
+    "api_key (SHELF_API_KEYS, operator-issued)",
     "apify_pay_per_event",
-    "x402 (coming soon)",
-    "stripe_mpp (coming soon)"
+    "x402 (USDC on Base) — live, settles with no account and no human"
   ],
   "endpoints": {
     "mcp": "https://agentwares-deal-memo.vercel.app/api/mcp",
     "memo": "https://agentwares-deal-memo.vercel.app/api/v1/memo",
     "lookup": "https://agentwares-deal-memo.vercel.app/api/v1/lookup",
+    "keys": "https://agentwares-deal-memo.vercel.app/v1/keys",
+    "credits": "https://agentwares-deal-memo.vercel.app/v1/credits",
     "llms_txt": "https://agentwares-deal-memo.vercel.app/llms.txt"
   },
   "upstream": "RentCast (resale permitted under its API terms); cached per address for at most 24h",

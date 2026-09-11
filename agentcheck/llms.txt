@@ -11,6 +11,7 @@ Errors are JSON with code, cause, fix and retryable. Automated clients are expli
 - [Pricing (machine-readable)](https://agentwares-agentcheck.vercel.app/pricing.json)
 - [MCP server (Streamable HTTP)](https://agentwares-agentcheck.vercel.app/api/mcp)
 - [OpenAPI](https://agentwares-agentcheck.vercel.app/openapi.json)
+- [server.json (MCP registry listing)](https://agentwares-agentcheck.vercel.app/server.json): io.github.agentwares/agentcheck
 - [Sign up (no human, no CAPTCHA)](https://agentwares-agentcheck.vercel.app/api/v1/signup): POST {"accept_terms": true} -> account + api_key
 - [How an agent authenticates](https://agentwares-agentcheck.vercel.app/docs/api-keys): no login needed to read
 - [Terms (automated clients permitted)](https://agentwares-agentcheck.vercel.app/terms)
