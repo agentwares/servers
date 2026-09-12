@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.agentwares/readiness-scorer",
   "description": "Probe a signup URL you own and score whether an AI agent can sign up unaided.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "url": "https://github.com/agentwares/servers",
     "source": "github",

@@ -6,7 +6,7 @@ Give it a signup URL you own; a headless browser agent tries to sign up the way 
 | --------------------- | ---------------------------------------------------------------------------------- |
 | **Service**           | https://agentwares-readiness.vercel.app                                            |
 | **MCP endpoint**      | `https://agentwares-readiness.vercel.app/api/mcp` (Streamable HTTP)                |
-| **Registry name**     | `io.github.agentwares/readiness-scorer` (v0.1.1)                                   |
+| **Registry name**     | `io.github.agentwares/readiness-scorer` (v0.1.2)                                   |
 | **Tools**             | `readiness_get_verification_token`, `readiness_request_scan`, `readiness_get_scan` |
 | **In this directory** | [`server.json`](server.json) · [`llms.txt`](llms.txt) · [tool reference](API.md)   |
 

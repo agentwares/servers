@@ -1,0 +1,37 @@
+# MCP Liveness
+
+> Whether a stock client can actually use an MCP server from the registry. Free, no key.
+
+A registry listing is a claim the publisher typed. Nothing verifies it at publish time,
+so an agent picking a server out of the catalogue has no way to know whether the endpoint
+answers, whether it wants a credential, or whether a credential can be obtained at all.
+This makes one `initialize` call with no credential and says what a stock client gets.
+On a 401 it walks the discovery chain the spec defines — RFC 9728, RFC 8414, RFC 7591 —
+and reports whether a client nobody has heard of could register itself, or whether a
+person has to create one. Both are HTTP 401 and the registry lists them identically.
+Measured on a random sample of 1200 remote listings on 2026-09-12: 63.0% answer a stock client, 21.8% want a credential, and 14.8% are not an MCP server at the address they gave. Of the ones wanting a credential, 17.2% published nothing a stock client could discover.
+Every request identifies itself as `agentwares-mcp-liveness/0.1 (+https://agentwares-agentcheck.vercel.app/bot)`. It never sends a credential, never
+registers a client, never retries a refusal and never evades anything.
+
+## Links
+
+- [Check one server](https://agentwares-mcp-liveness.vercel.app/v1/alive?name=io.github.owner/server): GET, JSON, no key
+- [The survey](https://agentwares-mcp-liveness.vercel.app/v1/survey): the sampled population numbers
+- [MCP server](https://agentwares-mcp-liveness.vercel.app/mcp): Streamable HTTP, no auth
+- [Server card](https://agentwares-mcp-liveness.vercel.app/server.json)
+
+## MCP tools
+
+- `mcp_liveness_check` (name, skipCredentialCheck?): Given a server's exact name in the official MCP registry, make one `initialize` call to
+the endpoint its listing names and report what a client with no credential gets.
+
+Outcomes: `usable` (it connected and negotiated a protocol version), `needs_credential`
+(401 or 403 — the answer then says whether a credential can be obtained in-band or
+whether a person has to create one), `charged` (402, access is for sale), `unreachable`
+(the listed endpoint is not an MCP server: wrong URL, dead host, or a 200 that is not
+JSON-RPC), `local_only` (no remote endpoint; it must be spawned as a process), and
+`not_listed` (no server with that exact name).
+
+Call this before spending a call on a server you found in the catalogue. Roughly two in
+five remote listings do not answer a stock client.
+- `mcp_liveness_explain_outcomes`: Return the six outcomes this server can report, what each means for an agent choosing a server from the registry, and what to do next for each. Makes no request and costs nothing; call it once to interpret mcp_liveness_check results.
