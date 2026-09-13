@@ -1,6 +1,6 @@
 # MCP Liveness
 
-> Whether a stock client can actually use an MCP server from the registry. Free, no key.
+> Whether a registry MCP server works for a stock client, and what changed in its tools. Free, no key.
 
 A registry listing is a claim the publisher typed. Nothing verifies it at publish time,
 so an agent picking a server out of the catalogue has no way to know whether the endpoint
@@ -10,15 +10,28 @@ On a 401 it walks the discovery chain the spec defines — RFC 9728, RFC 8414, R
 and reports whether a client nobody has heard of could register itself, or whether a
 person has to create one. Both are HTTP 401 and the registry lists them identically.
 Measured on a random sample of 1200 remote listings on 2026-09-12: 63.0% answer a stock client, 21.8% want a credential, and 14.8% are not an MCP server at the address they gave. Of the ones wanting a credential, 17.2% published nothing a stock client could discover.
+Do not probe the catalogue yourself. Every remote listing is probed once a month and the
+answers are served as static files, so reading them costs one request instead of 19,000
+and costs the registry's servers nothing at all. `/v1/alive` is for a single name you
+care about right now; the files are for choosing.
 Every request identifies itself as `agentwares-mcp-liveness/0.1 (+https://agentwares-agentcheck.vercel.app/bot)`. It never sends a credential, never
 registers a client, never retries a refusal and never evades anything.
 
 ## Links
 
-- [Check one server](https://agentwares-mcp-liveness.vercel.app/v1/alive?name=io.github.owner/server): GET, JSON, no key
+- [Check one server](https://agentwares-mcp-liveness.vercel.app/v1/alive?name=io.github.agentwares/mcp-liveness): GET, JSON, no key — probes live
+- [Every listing, precomputed](https://agentwares-mcp-liveness.vercel.app/index.ndjson): one line per remote listing with its last outcome; fetch this instead of probing
+- [The ones to skip](https://agentwares-mcp-liveness.vercel.app/unreachable.ndjson): only the listings whose endpoint is not an MCP server — the smallest useful file
+- [What is in those files](https://agentwares-mcp-liveness.vercel.app/index.meta.json): counts, causes, sizes, build time
+- [What changed in a server since a past month](https://agentwares-mcp-liveness.vercel.app/v1/drift?name=io.github.agentwares/mcp-liveness&since=2026-09): per-tool change kinds — added, removed, description, input or output schema — between a monthly snapshot and the latest, free and keyless, from a permanent history; the exact schema diff is computed from the linked full snapshots
+- [Drift, month by month](https://agentwares-mcp-liveness.vercel.app/drift.meta.json): per-month totals: servers unchanged, changed, disappeared, new, with tool-level counts; one static fetch
 - [The survey](https://agentwares-mcp-liveness.vercel.app/v1/survey): the sampled population numbers
 - [MCP server](https://agentwares-mcp-liveness.vercel.app/mcp): Streamable HTTP, no auth
 - [Server card](https://agentwares-mcp-liveness.vercel.app/server.json)
+
+## What this cannot tell you
+
+- [Whether a server stays up after this check](https://agentwares-agentcheck.vercel.app): this is one check from outside, right now; agentcheck monitors a server you publish and alerts you when it stops answering
 
 ## MCP tools
 
@@ -35,3 +48,18 @@ JSON-RPC), `local_only` (no remote endpoint; it must be spawned as a process), a
 Call this before spending a call on a server you found in the catalogue. Roughly two in
 five remote listings do not answer a stock client.
 - `mcp_liveness_explain_outcomes`: Return the six outcomes this server can report, what each means for an agent choosing a server from the registry, and what to do next for each. Makes no request and costs nothing; call it once to interpret mcp_liveness_check results.
+- `mcp_liveness_drift` (name, since?): Given a server's exact name in the official MCP registry, report which of its tools were
+added, removed, or had their description, input schema or output schema change between
+the month you name and the latest monthly snapshot.
+
+Call this when a server worked before and is behaving differently now, when a prompt or
+an integration written against its tools has started failing, or before trusting a tool
+description you cached. A liveness check says it answers today; this says whether it is
+still the same server your code was written against.
+
+The answer names the changed tools and the kind of change. It does not diff the schemas
+themselves: the snapshots keep content hashes, not bodies, so `detail` hands back the
+release-asset location of both full months for a caller that needs the exact diff.
+
+A month with no snapshot for that server gets an error naming the months that do have
+one, never an empty diff that would read as `nothing changed`.

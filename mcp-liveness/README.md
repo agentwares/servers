@@ -6,8 +6,8 @@ Given a server's name in the official MCP registry, whether a stock client can a
 | --------------------- | -------------------------------------------------------------------------------- |
 | **Service**           | https://agentwares-mcp-liveness.vercel.app                                       |
 | **MCP endpoint**      | `https://agentwares-mcp-liveness.vercel.app/mcp` (Streamable HTTP)               |
-| **Registry name**     | `io.github.agentwares/mcp-liveness` (v0.1.0)                                     |
-| **Tools**             | `mcp_liveness_check`, `mcp_liveness_explain_outcomes`                            |
+| **Registry name**     | `io.github.agentwares/mcp-liveness` (v0.2.0)                                     |
+| **Tools**             | `mcp_liveness_check`, `mcp_liveness_explain_outcomes`, `mcp_liveness_drift`      |
 | **In this directory** | [`server.json`](server.json) · [`llms.txt`](llms.txt) · [tool reference](API.md) |
 
 A registry listing is a claim the publisher typed. Nothing verifies it at publish time, so an agent
@@ -48,7 +48,7 @@ None. No key, no signup, no payment, no rate-limit tier to buy.
 Free: the outcome for any server in the registry.
 
 ```sh
-curl -s "https://agentwares-mcp-liveness.vercel.app/v1/alive?name=io.github.owner/server"
+curl -s "https://agentwares-mcp-liveness.vercel.app/v1/alive?name=io.github.agentwares/mcp-liveness"
 ```
 
 ## MCP client configuration

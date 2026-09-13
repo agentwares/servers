@@ -30,6 +30,10 @@ bot management does with a liar, not what it does with OpenAI.
 - [blocked](https://agentwares-access-index.vercel.app/#blocked): the site says no and sells nothing
 - [unknown](https://agentwares-access-index.vercel.app/#unknown): no answer, or the URL is not there
 
+## What this cannot tell you
+
+- [It will not sign an allowed_if_identified fetch for you](https://www.npmjs.com/package/@agentwares/web-bot-auth): the policy permits the fetch once it is signed; @agentwares/web-bot-auth builds the Web Bot Auth signature — `npm i @agentwares/web-bot-auth`
+
 ## MCP tools
 
 - `access_check_url` (url, includeEvidence?, skipWellKnown?): Given a URL, say whether an AI agent may fetch it, on what terms, and at what price.
