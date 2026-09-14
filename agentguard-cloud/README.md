@@ -2,13 +2,13 @@
 
 The hosted control plane for agentguard, the MCP policy proxy: spend caps, approvals for destructive tools, a kill switch, dry-run diffs, a loop breaker and a hash-chained audit log.
 
-|                       |                                                                                                                                                                 |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Service**           | https://agentwares-agentguard.vercel.app                                                                                                                        |
-| **MCP endpoint**      | `https://agentwares-agentguard.vercel.app/api/mcp` (Streamable HTTP)                                                                                            |
-| **Registry name**     | `io.github.agentwares/agentguard-cloud` (v0.1.1)                                                                                                                |
-| **Tools**             | `agentguard_get_pricing`, `agentguard_create_proxy`, `agentguard_set_policy`, `agentguard_get_run`, `agentguard_export_audit`, `agentguard_recommend_allowlist` |
-| **In this directory** | [`server.json`](server.json) · [`llms.txt`](llms.txt) · [`pricing.json`](pricing.json) · [tool reference](API.md)                                               |
+|                       |                                                                                                                                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Service**           | https://agentwares-agentguard.vercel.app                                                                                                                                                   |
+| **MCP endpoint**      | `https://agentwares-agentguard.vercel.app/api/mcp` (Streamable HTTP)                                                                                                                       |
+| **Registry name**     | `io.github.agentwares/agentguard-cloud` (v0.1.1)                                                                                                                                           |
+| **Tools**             | `agentguard_get_pricing`, `agentguard_spend_report`, `agentguard_create_proxy`, `agentguard_set_policy`, `agentguard_get_run`, `agentguard_export_audit`, `agentguard_recommend_allowlist` |
+| **In this directory** | [`server.json`](server.json) · [`llms.txt`](llms.txt) · [`pricing.json`](pricing.json) · [tool reference](API.md)                                                                          |
 
 agentguard sits between an agent and its MCP servers and refuses the calls your policy does not
 allow. **The proxy, the policy engine and the CLI are open source** and live in

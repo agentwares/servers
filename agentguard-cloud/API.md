@@ -1,6 +1,6 @@
 # agentguard cloud — tool reference
 
-6 tools on `https://agentwares-agentguard.vercel.app/api/mcp`, generated from a live `tools/list`
+7 tools on `https://agentwares-agentguard.vercel.app/api/mcp`, generated from a live `tools/list`
 call against the deployed server. Errors are JSON objects carrying `code`, `cause`, `fix` and
 `retryable`, so a client can decide whether to retry without parsing prose.
 
@@ -11,6 +11,17 @@ See [README.md](README.md) for authentication and a call you can paste into a te
 Machine-readable pricing for agentguard hosted: bands (Starter/Pro/Team) with included tool calls per month, the 80% soft alert and 150% hard stop, features, the free trial allowance, and `per_call` — buying tool calls outright at POST /api/v1/calls from a prepaid balance, which is the one purchase here an unattended agent can complete. Same data as /pricing.json.
 
 _Takes no arguments._
+
+Annotations: `readOnlyHint`, `idempotentHint`
+
+## `agentguard_spend_report`
+
+Read an agent log and report what it spent: totals, calls by tool and by class, estimated dollars by rail, loops, the largest single run, and — for every overspend — the agentguard band whose cap would have stopped it, the exact cap, and the call that would have tripped it. Needs no account and no key. The log is read in the request and discarded; nothing is stored. Accepts an agentwares audit export (`agentwares.audit/v1`), a Claude Code session `.jsonl`, or a CSV/JSONL of tool calls with any of `tool`, `ts`, `class`, `amount_usd`, `rail`, `run_id`, `model`, `input_tokens`, `output_tokens`. Caps come from the proxy's own default policy, so a band named here refuses exactly what it says it refuses. Buying that band is a checkout a person completes; the calls-only purchase an unattended agent can complete is in `agentguard_get_pricing` instead.
+
+| Parameter | Type                    | Required | Description                                                                                                                                                                                                         |
+| --------- | ----------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `log`     | string                  | yes      | The log itself, verbatim — JSON, JSONL or CSV. Not a path and not a URL: this server does not fetch anything.                                                                                                       |
+| `detail`  | `"concise"` \| `"full"` | no       | `concise` (default) returns the totals, the top ten tools, the rails, the loops and every overspend. `full` adds the complete per-tool breakdown and the window. Ask for `full` only when you are going to read it. |
 
 Annotations: `readOnlyHint`, `idempotentHint`
 

@@ -10,7 +10,7 @@ Buying more calls without a browser: the bands are monthly subscriptions bought 
 
 ## Links
 
-- [Free spend report (no account, nothing stored)](https://agentwares-agentguard.vercel.app/report): Paste an agentguard audit export, a Claude Code session .jsonl, or a CSV of tool calls; get totals, spend by rail, loops, and the band whose cap would have stopped each overspend. JSON for agents at /api/report.
+- [Free spend report (no account, nothing stored)](https://agentwares-agentguard.vercel.app/report): Paste an agentguard audit export, a Claude Code session .jsonl, or a CSV of tool calls; get totals, spend by rail, loops, and the band whose cap would have stopped each overspend. JSON for agents at /api/report, or call the `agentguard_spend_report` tool on the MCP server at /api/mcp, which needs no key either.
 - [Start the free trial (no human, no card, no CAPTCHA)](https://agentwares-agentguard.vercel.app/api/v1/signup): POST {"accept_terms": true} for an account key
 - [Buy tool calls outright (no browser, no subscription)](https://agentwares-agentguard.vercel.app/api/v1/calls): POST {"calls": 1000} at $0.00029/call with an account key and a funded credit key; GET for the terms
 - [Credit keys and funding](https://agentwares-agentguard.vercel.app/v1/keys): POST with no auth for a credit key; POST https://agentwares-agentguard.vercel.app/v1/credits/x402 funds it in USDC with no human
@@ -25,6 +25,19 @@ Buying more calls without a browser: the bands are monthly subscriptions bought 
 ## MCP tools
 
 - `agentguard_get_pricing`: Machine-readable pricing for agentguard hosted: bands (Starter/Pro/Team) with included tool calls per month, the 80% soft alert and 150% hard stop, features, the free trial allowance, and `per_call` — buying tool calls outright at POST /api/v1/calls from a prepaid balance, which is the one purchase here an unattended agent can complete. Same data as /pricing.json.
+- `agentguard_spend_report` (log, detail?): Read an agent log and report what it spent: totals, calls by tool and by class, estimated
+dollars by rail, loops, the largest single run, and — for every overspend — the agentguard
+band whose cap would have stopped it, the exact cap, and the call that would have tripped
+it.
+
+Needs no account and no key. The log is read in the request and discarded; nothing is
+stored. Accepts an agentwares audit export (`agentwares.audit/v1`), a Claude Code session
+`.jsonl`, or a CSV/JSONL of tool calls with any of `tool`, `ts`, `class`, `amount_usd`,
+`rail`, `run_id`, `model`, `input_tokens`, `output_tokens`.
+
+Caps come from the proxy's own default policy, so a band named here refuses exactly what
+it says it refuses. Buying that band is a checkout a person completes; the calls-only
+purchase an unattended agent can complete is in `agentguard_get_pricing` instead.
 - `agentguard_create_proxy` (slug, upstreamUrl, upstreamName?, mode?): Create a hosted agentguard proxy in front of an MCP server. Returns the proxy id, the per-customer MCP URL and the proxy key (shown once). Point your agent's MCP client at the URL with `Authorization: Bearer <key>`. Requires an account key.
 - `agentguard_set_policy` (proxyId, policyYaml): Replace a proxy's policy (YAML: mode, upstreams, classify, caps, loop, dry_run, approvals, alerts, chaos, drift). Validated before saving; takes effect within 30 seconds. Requires an account key.
 - `agentguard_get_run` (proxyId, runId): The incident-shaped report for one run: counts (calls, reads, writes, faked, blocked, spend), the call timeline with decisions, dry-run mutations (what would have changed), ledger entries and the audit-chain verification. Requires an account key.
