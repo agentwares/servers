@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.agentwares/agentguard-cloud",
-  "description": "Hosted agentguard proxies: caps, dry-run, loop breaker, run reports, audit export, buy calls.",
-  "version": "0.1.1",
+  "description": "Free spend report from an agent log, no key. Hosted proxies: caps, audit export, buy calls.",
+  "version": "0.2.0",
   "repository": {
     "url": "https://github.com/agentwares/servers",
     "source": "github",
@@ -17,7 +17,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "description": "Bearer <account key>. POST /api/v1/signup {\"accept_terms\": true} for one — no human, no card. Only agentguard_get_pricing works without it.",
+          "description": "Bearer <account key>. POST /api/v1/signup {\"accept_terms\": true} for one — no human, no card. agentguard_spend_report and agentguard_get_pricing work without it.",
           "isRequired": false,
           "isSecret": true
         }
